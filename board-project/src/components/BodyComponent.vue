@@ -1,24 +1,20 @@
 <template>
   <ul id="myUL">
-    <li v-for="todo in list" v-bind:key="todo.no" @click="checkTodo(todo.no)">{{ todo.todo }}<span class="close" @click="deleteTodo(todo.no)">×</span></li>
+    <li v-for="todo in todos" v-bind:key="todo.no" v-bind:class="{checked: todo.cancelFlag}"
+      @click="cancelTodo(todo.no)">{{todo.todo}} <span @click="deleteTodo(todo.no)" class="close">×</span></li>
   </ul>
 </template>
 
 <script>
-export default {
-  props : ['list'],
-  data() {
-    return {
-
-    }
-  },
-  methods: {
-    deleteTodo(no) {
-      this.$emit('delete-todo', no)
-    },
-    checkTodo(no) {
-      this.$emit('check-todo', no)
+  export default {
+    props: ['todos'],
+    methods: {
+      cancelTodo(no) {
+        this.$emit('cancel-todo', no);
+      },
+      deleteTodo(no) {
+        this.$emit('delete-todo', no);
+      }
     }
   }
-}
 </script>
