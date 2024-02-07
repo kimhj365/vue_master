@@ -56,6 +56,13 @@ FROM t_comment_board
 WHERE bno = ?
 ORDER BY 1`;
 
+// 댓글 수
+let commentCount = 
+`SELECT count(*)
+FROM    t_comment_board
+WHERE   bno = ?`;
+
+
 module.exports = {
     boardList,  // 변수명  == 필드명, 변수가 가지고 있는 값이 필드의 값
     boardInfo,
@@ -63,5 +70,6 @@ module.exports = {
     boardUpdateAll,
     boardUpdateInfo,
     boardDelete,
-    commentList
+    commentList,
+    commentCount
 }

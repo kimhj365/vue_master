@@ -2,7 +2,7 @@
 <template>
   <ul v-for="(comment, idx) in commentList" v-bind:key="idx">
     <li>{{ comment.content }}</li>
-    <li>{{ comment.writer }} {{ createdDate(comment.create_date) }}</li>
+    <li>{{ comment.writer }} {{ createdDate(comment.created_date) }}</li>
   </ul>
 </template>
 <script>
@@ -14,12 +14,13 @@ export default {
       commentList : []
     }
   },
+  props: ['bno'],
   created() {
-    this.getcommentList(); 
+    this.getcommentList(this.bno); 
   },
   methods : {
-    async getcommentList() {
-      let result = await axios.get('/api/comment')
+    async getcommentList(bno) {
+      let result = await axios.get('/api/comment/' + bno)
                               .catch(err => console.log(err));
       console.log(result);
       let list = result.data;
@@ -40,3 +41,11 @@ export default {
   }
 }
 </script>
+<style>
+ul {
+  border: 1px solid #ccc;
+}
+li {
+  list-style: none;
+}
+</style>

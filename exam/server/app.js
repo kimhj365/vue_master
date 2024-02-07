@@ -102,3 +102,12 @@ app.get('/comment/:bno', async (req, res) => {
     let list = await mysql.executeQuery('commentList', bno);
     res.json(list);
 });
+
+// 댓글 수 조회
+app.get('/board/:no', async (req, res) => {
+    let no = req.params.no;
+    let list = await mysql.executeQuery('commentCount', no);
+    res.json(list);
+});
+
+// 댓글 수

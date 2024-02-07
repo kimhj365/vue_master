@@ -25,18 +25,24 @@
     </div>
     <div class="row">
       <h5>댓글 목록</h5>
+      <CommentListView v-bind:bno="rootData"/>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import CommentListView from "./CommentListView.vue";
 
 export default {
   data() {
     return {
-      boardInfo: {}
+      boardInfo: {},
+      rootData: this.$route.query.no
     }
+  },
+  components: {
+    CommentListView
   },
   computed: {
     createdDate() {
