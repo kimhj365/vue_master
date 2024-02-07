@@ -1,7 +1,7 @@
 <!-- UserInfoView.vue -->
 <template>
   <div class="container">
-    <h1>회원 정보 조회</h1>
+    <h3 class="text-center">회원 정보 조회</h3>
     <div class="row">
       <table class="table">
         <tr>
@@ -66,13 +66,6 @@ export default {
       }
       return result
     },
-    // userGender() {
-    //   let map = {
-    //     'M' : '남',
-    //     'F' : '여'
-    //   }
-    //   return map[this.userInfo.user_gender]
-    // },
     // 가입날짜: 년월일
     joinDate() {
       let result = null;
@@ -103,16 +96,24 @@ export default {
     },
     goToUpdate(userId) {
       // 수정폼 컴포넌트 호출
-      this.$router.push({ path: '/userUpdate', query: {'userId' : userId}});    
+      // this.$router.push({ path: '/userUpdate', query: {'userId' : userId}});
+      this.$router.push({ path: '/userForm', query: {'id' : userId}});
     },
     deleteInfo(userId) {
-      // 서버의 해당 데이터 삭제
-      console.log(userId);
+      axios
+      .delete('/api/users/'+ userId)
+      .then(result => {
+        console.log(result);
+        if(result.data.affectedRows != 0 && result.data.changedRows == 0 ){
+          alert(`정상적으로 삭제되었습니다.`);
+          this.$router.push({ path: '/'});
+        }
+        else {
+          alert(`삭제되지 않았습니다.\n메세지를 확인해주세요\n${result.data.message}`);
+        }
+      })
+      .catch(err => console.log(err));
     }
   }
 }
 </script>
-
-<style>
-
-</style>

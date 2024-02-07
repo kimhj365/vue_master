@@ -1,7 +1,7 @@
 <!-- UserListView.vue -->
 <template>
   <div class="container">
-    <h1>전체 회원 조회</h1>
+    <h3 class="text-center">전체 회원 조회</h3>
     <table class="table">
       <thead>
         <tr>
@@ -22,8 +22,8 @@
           <td>{{ user.user_id }}</td>
           <td>{{ user.user_name }}</td>
           <!-- text 디렉티브 사용시 -->
-          <td v-text="user.user_gender" />
-          <td v-text="user.join_date" />
+          <td v-text="userGender(user.user_gender)" />
+          <td v-text="joinDate(user.join_date)" />
         </tr>
       </tbody>
     </table>
@@ -47,7 +47,8 @@ import axios from 'axios'
       // 몇개 가지고 있는지 출력
       count() {
         return this.userList.length;
-      }
+      },
+      
     },
     // watch: 
     // 이미 존재하는 값들을 감시
@@ -92,6 +93,26 @@ import axios from 'axios'
         // $router.push: 통신을 요청 / $route : 통신을 받음
         this.$router.push({ path: '/userInfo', query: {'userId' : userId}});
         // this.$router.push({ name: 'userInfo', query: {'userId' : userId}});  // name으로도 가능
+      },
+      joinDate(joinDate) {
+        let result = null;
+        if(joinDate != null){
+          let date = new Date(joinDate);
+          let year = date.getFullYear();
+          let month = ('0' + (date.getMonth() + 1)).slice(-2);
+          let day = ('0' + date.getDate()).slice(-2);
+
+          result = `${year}년 ${month}월 ${day}일`
+        }
+        return result
+      },
+      userGender(gender) {
+        let result = null;
+        if(gender == 'M') result = '남';
+        else if(gender == 'F') result = '여';
+        else result = '';
+        return result;
+
       }
     }
   }

@@ -1,7 +1,7 @@
 <!-- UserInsertView.vue -->
 <template>
    <div class="container">
-    <h1>회원 정보 수정</h1>
+    <h3 class="text-center">회원 정보 수정</h3>
     <div class="row">
       <table class="table">
         <tr>
@@ -48,7 +48,7 @@
           <!-- 년월일 -->
           <th class="text-right table-primary">가입일자</th>
           <td class="text-center">
-            <input class="form-control" type="date" v-model="userInfo.join_date"> <!-- yyyy-MM-dd -->
+            <input class="form-control" type="date" v-model="userInfo.join_date"><!-- yyyy-MM-dd -->
           </td>
         </tr>
       </table>
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       // chkVal : '아니오',
-      // 사용자 입력 전까지 공백 
+      // 사용자 입력 전까지 공백
       userInfo: {
         user_no : null,
         user_id : "",
@@ -90,6 +90,8 @@ export default {
       let result = await axios.get('/api/users/' + userId)
                               .catch(err => console.log(err));
       let info = result.data;
+      let newDate = this.dataFormat(info.join_date);
+      info.join_date = newDate;
       this.userInfo = info; 
     },
     updateInfo() {
@@ -106,7 +108,7 @@ export default {
       .then(result => {
         console.log(result);
         // 3) 결과 처리
-        let user_no = result.data.affectedRows;
+        let user_no = result.data.changedRows;
         if(user_no == 0){
           alert(`수정되지 않았습니다.\n메세지를 확인해주세요\n${result.data.message}`);
         }
@@ -118,10 +120,6 @@ export default {
       .catch(err => console.log(err));
     },
     validation() {
-      if(this.userInfo.user_id == '') {
-        alert('아이디가 입력되지 않았습니다.');
-        return false;
-      }
       if(this.userInfo.user_pwd == '') {
         alert('비밀번호가 입력되지 않았습니다.');
         return false;
@@ -154,6 +152,18 @@ export default {
         "param" : newObj
       }
       return newData;
+    },
+    dataFormat(value) {
+      let result = null;
+      if(value != null){
+        let date = new Date(value);
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let day = ('0' + date.getDate()).slice(-2);
+
+        result = `${year}-${month}-${day}`
+      }
+      return result;
     }
   }
 }

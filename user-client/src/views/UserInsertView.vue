@@ -1,7 +1,7 @@
 <!-- UserInsertView.vue -->
 <template>
    <div class="container">
-    <h1>회원 정보 등록</h1>
+    <h3 class="text-center">회원 정보 등록</h3>
     <div class="row">
       <table class="table">
         <tr>
@@ -78,6 +78,9 @@ export default {
       }
     }
   },
+  created() {
+    this.userInfo.join_date = this.getToday()
+  },
   methods : {
     insertInfo() {
       // 1) 유효성 체크
@@ -143,6 +146,13 @@ export default {
         "param" : newObj
       }
       return newData;
+    },
+    getToday() {
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = ('0' + (date.getMonth() + 1)).slice(-2);
+      let day = ('0' + date.getDate()).slice(-2);
+      return `${year}-${month}-${day}`;
     }
   }
 }
